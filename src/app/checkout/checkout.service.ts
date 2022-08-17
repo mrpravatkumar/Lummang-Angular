@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Checkout } from './checkout';
 
 @Injectable({
@@ -8,39 +9,40 @@ import { Checkout } from './checkout';
 })
 export class CheckoutService {
 
-  constructor(private http:HttpClient) { }
-  placeorder(order:Checkout):Observable<any>{
-   return this.http.post<any>("https://demo22.appman.in/api/order/placeorder",order);
+  baseUrl = environment.baseUrl
+
+  constructor(private http: HttpClient) { }
 
 
- } 
+  placeorder(order: Checkout): Observable<any> {
+    return this.http.post<any>(this.baseUrl+"api/order/placeorder", order);
+  }
 
- getorderbybuyerid(buyerid){
-  return this.http.get<any>("https://demo22.appman.in/api/order/user/getmyorder/" +buyerid)
-}
+  getorderbybuyerid(buyerid) {
+    return this.http.get<any>(this.baseUrl+"api/order/user/getmyorder/" + buyerid)
+  }
 
-postuseraddress(useraddress){
-  return this.http.post<any>("https://demo22.appman.in/useraddress",useraddress);
- 
+  postuseraddress(useraddress) {
+    return this.http.post<any>(this.baseUrl+"useraddress", useraddress);
+  }
 
-} 
-getuseraddressbyuserid(userid){
-  return this.http.get<any>("https://demo22.appman.in/api/useraddressbyuserid/" +userid)
+  getuseraddressbyuserid(userid) {
+    return this.http.get<any>(this.baseUrl+"api/useraddressbyuserid/" + userid)
+  }
 
-} 
-getuseraddresscount(customerid):Observable<any>{
-  return this.http.get<any>("https://demo22.appman.in/countaddress/"+customerid)
+  getuseraddresscount(customerid): Observable<any> {
+    return this.http.get<any>(this.baseUrl+"countaddress/" + customerid)
+  }
 
-}
-getdeleteuseraddress(customerid):Observable<any>{
-  return this.http.get<any>("https://demo22.appman.in/api/delete/useraddress/"+customerid)
+  getdeleteuseraddress(customerid): Observable<any> {
+    return this.http.get<any>(this.baseUrl+"delete/useraddress/" + customerid)
+  }
 
-}
-getuseraddressbyid(id):Observable<any>{
-  return this.http.get<any>("https://demo22.appman.in/api/useraddress/"+id)
+  getuseraddressbyid(id): Observable<any> {
+    return this.http.get<any>(this.baseUrl+"useraddress/" + id)
+  }
 
-}
-updateuseraddress(address){
-  return this.http.post<any>("https://demo22.appman.in/updateuseraddress",address)
-}
+  updateuseraddress(address) {
+    return this.http.post<any>(this.baseUrl+"updateuseraddress", address)
+  }
 } 

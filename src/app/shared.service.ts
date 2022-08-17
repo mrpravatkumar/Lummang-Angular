@@ -15,15 +15,16 @@ export class SharedService {
     return _window();
   }
 
+  baseUrl = environment.baseUrl
+
   constructor(private http: HttpClient) { }
 
   getitembycategoryid(categoryid) {
-    return this.http.get<any>("http://localhost:4000/api/item/getitemsbycategoryid/" + categoryid)
+    return this.http.get<any>(this.baseUrl+"api/item/getitemsbycategoryid/" + categoryid)
   }
 
   createpayment(amount) {
-    // console.log('createpayment: ',environment.baseUrl+"razorpay", amount)
-    return this.http.post<any>(environment.baseUrl+"razorpay", amount)  
+    return this.http.post<any>(this.baseUrl + "api/razorpay", amount)
   }
 
 }

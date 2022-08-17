@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://demo22.appman.in/api/',
-  // baseUrl: 'http://localhost:4000'
+  // baseUrl: 'https://demo22.appman.in/api/',
+  baseUrl: 'http://localhost:4000/'
 };
 
 /*

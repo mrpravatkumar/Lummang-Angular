@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '../../shared.service'
-import {environment } from '../../../environments/environment'
+import { environment } from '../../../environments/environment'
 
 
 @Component({
@@ -129,11 +129,9 @@ export class CheckoutComponent implements OnInit {
       };
 
       this.razorpaytotalprice = this.totalprice
-
       console.log(this.razorpay.value)
       for (let current of this.cart) {
         this.mrptotalprice += current.quantity * current.mrp
-
       }
       console.log(`total price: ${this.totalprice}`)
       for (let current of this.cart) {
@@ -156,13 +154,10 @@ export class CheckoutComponent implements OnInit {
   deletecart(cartid) {
     this.CartService.deletecart(cartid, this.customerid._id).subscribe(data => {
       this.cart = data.cart;
-
     })
-
   }
 
   incquantity(cartid, quantity) {
-
     this.CartService.geteditcart(cartid, ++quantity).subscribe(data => {
       setTimeout(
         function () {
@@ -174,10 +169,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   decquantity(cartid, quantity) {
-
     this.CartService.geteditcart(cartid, quantity).subscribe(data => {
-
-
       setTimeout(
         function () {
           location.reload();
@@ -194,20 +186,14 @@ export class CheckoutComponent implements OnInit {
 
   calculatetotalprice() {
     let totalprice: number = 0;
-
-
     for (let current of this.cart) {
       totalprice += current.quantity * current.price
-
     }
-
     console.log(`total price: ${totalprice}`)
     for (let current of this.cart) {
       this.mrptotalprice += current.quantity * current.mrp
-
     }
   }
-
 
   useraddress() {
     this.CheckoutService.postuseraddress(this.loginform.value).subscribe(
@@ -219,24 +205,17 @@ export class CheckoutComponent implements OnInit {
 
   open(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-
     }, (reason) => {
-
     });
   }
+
   Modelcheckout() {
-
-
-
     this.CheckoutService.placeorder(this.loginform.value).subscribe((data) => {
       console.log(data)
-
-
     })
   }
 
   deleteaddress() {
-
     this.CheckoutService.getdeleteuseraddress(this.customerid._id).subscribe(data => {
       console.log(data)
       setTimeout(
@@ -244,15 +223,12 @@ export class CheckoutComponent implements OnInit {
           location.reload();
         }, .1000
       );
-
     })
-
   }
 
   orderplaced(user) {
     console.log('userData: ', user)
     this.CheckoutService.placeorder(user).subscribe((data) => {
-
     })
   }
 
@@ -269,7 +245,6 @@ export class CheckoutComponent implements OnInit {
   updateuseraddress() {
     this.CheckoutService.updateuseraddress(this.updateaddress).subscribe(data => {
       console.log(data)
-
     })
     setTimeout(
       function () {
@@ -281,23 +256,14 @@ export class CheckoutComponent implements OnInit {
 
   rzp1
   pay() {
-
-
     this.SharedService.createpayment(this.razorpay.value).subscribe(data => {
-
       console.log(this.razorpay.value)
       console.log(data['amount'])
       console.log(data)
-
     })
     this.rzp1 = new this.SharedService.nativeWindow.Razorpay(this.options)
-
     this.rzp1.on('payment.failed', function (response) {
-
-
     });
     this.rzp1.open();
   }
 }
-
-

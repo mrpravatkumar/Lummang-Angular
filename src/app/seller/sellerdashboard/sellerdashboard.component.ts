@@ -17,7 +17,7 @@ export class SellerdashboardComponent implements OnInit {
     this.userService.getcustomerbyid(this.customerid).subscribe(
       data=>{
         this.customer=data.data.users
-        console.log(data.data.users)
+        console.log('customer data: ', data.data.users)
       }
     )
   }

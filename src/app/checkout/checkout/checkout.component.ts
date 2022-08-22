@@ -16,6 +16,7 @@ import { environment } from '../../../environments/environment'
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
+  razorpayObject
   totalquantity = 0;
   razorpaytotalprice: any;
   userid = 0
@@ -141,11 +142,10 @@ export class CheckoutComponent implements OnInit {
     })
   }
 
-
   checkout() {
     this.CheckoutService.placeorder(this.loginform.value).subscribe((data) => {
       if (data.length > 0) {
-        this.pay()
+        // this.pay()
       }
       console.log(data)
     })
@@ -182,7 +182,6 @@ export class CheckoutComponent implements OnInit {
 
     })
   }
-
 
   calculatetotalprice() {
     let totalprice: number = 0;
@@ -232,6 +231,74 @@ export class CheckoutComponent implements OnInit {
     })
   }
 
+  createOrder(user) {
+    let initalPayPayload = {
+      "amount": 2000 * 100,
+      "currency": "INR",
+      "receipt": "receipt1",
+      "notes": {
+        "description": "Best Course for SDE placements",
+        "language": "Available in n4major Languages JAVA,C/C++,Python,Javascript",
+        "access": "This course have Lifetime Access"
+      }
+    }
+
+    this.CheckoutService.createOrder(initalPayPayload).subscribe((res) => {
+      console.log('inital payment response: ', res)
+      this.openRazorpayModal(res)
+    }, (err) => {
+      console.log('inital payment error: ', err)
+    })
+  }
+
+  verifyOrderPayment(response) {
+    console.log('verify payment: ', response)
+    this.CheckoutService.verifyOrderPayment(response).subscribe((res) => {
+      // console.log('payment verification res: ', res)
+    }, (err) => {
+      // console.log('payment verification err: ', err)
+    })
+  }
+
+  openRazorpayModal(rpayResponse) {
+    var options = {
+      "key": "rzp_test_0FDKYlrG8MBQ8Q",
+      "amount": 2000 * 100,
+      "currency": "INR",
+      "name": "Dummy Academy",
+      "description": "Pay & Checkout this Course, Upgrade your DSA Skill",
+      "order_id": `${rpayResponse.id}`,
+      "handler": (response) => {
+        console.log('handler res: ', response)
+        alert("This step of Payment Succeeded");
+        this.verifyOrderPayment(response)
+      },
+      "prefill": {
+        //Here we are prefilling random contact
+        "contact": "7000583601",
+        //name and email id, so while checkout
+        "name": "sheetal marko",
+        "email": "smarko@gmail.com"
+      },
+      "notes": {
+        "description": "Best Course for SDE placements",
+        "language": "Available in 4 major Languages JAVA, C/ C++, Python, Javascript",
+        "access": "This course have Lifetime Access"
+      },
+      "theme": {
+        "color": "#2300a3"
+      }
+    };
+
+    this.razorpayObject = new this.SharedService.nativeWindow.Razorpay(options)
+    console.log('razorpayObject: ', this.razorpayObject);
+    this.razorpayObject.open();
+    this.razorpayObject.on('payment.failed', function (response) {
+      console.log('payment failed res: ', response);
+      alert("This step of Payment Failed");
+    });
+  }
+
 
   opendetails(userAddress) {
     console.log('userAddress: ', userAddress)
@@ -254,16 +321,16 @@ export class CheckoutComponent implements OnInit {
   }
 
 
-  rzp1
-  pay() {
-    this.SharedService.createpayment(this.razorpay.value).subscribe(data => {
-      console.log(this.razorpay.value)
-      console.log(data['amount'])
-      console.log(data)
-    })
-    this.rzp1 = new this.SharedService.nativeWindow.Razorpay(this.options)
-    this.rzp1.on('payment.failed', function (response) {
-    });
-    this.rzp1.open();
-  }
+  // rzp1
+  // pay() {
+  //   this.SharedService.createpayment(this.razorpay.value).subscribe(data => {
+  //     console.log(this.razorpay.value)
+  //     console.log(data['amount'])
+  //     console.log(data)
+  //   })
+  //   this.rzp1 = new this.SharedService.nativeWindow.Razorpay(this.options)
+  //   this.rzp1.on('payment.failed', function (response) {
+  //   });
+  //   this.rzp1.open();
+  // }
 }

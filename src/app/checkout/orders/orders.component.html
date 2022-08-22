@@ -17,8 +17,8 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <select class="form-control" name="" id="">
-                                <option value="" class="text-center form-control">ALL Orders</option>
-                                <option value="" class="text-center form-control">Current Orders</option>
+                                <option value="" class="text-center form-control">All Orders</option>
+                                <option value="" class="text-center form-control">Ongoing Orders</option>
                                 <option value="" class="text-center form-control">Completed Orders</option>
                             </select>
                         </div>
@@ -28,10 +28,12 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>id</th>
-                                <th>order date</th>
-                                <th>orders status</th>
-                                <th>order total</th>
+                                <th>Id</th>
+                                <th>Order date</th>
+                                <th>Orders status</th>
+                                <th>Order total</th>
+                                <th class="text-center">Payment Status</th>
+                                <th>Rating</th>
                                 <th class="text-center">action</th>
                             </tr>
                         </thead>
@@ -41,6 +43,11 @@
                                 <td>{{order.orderDatetime}}</td>
                                 <td>{{order.orderstatus}}</td>
                                 <td *ngIf="!order.total">NA</td>
+                                <td class="text-center">successful</td>
+                                <td>
+                                    <ngb-rating [max]="5" [(rate)]="currentRate" [readonly]="false" (click)="rating($event)">
+                                    </ngb-rating>
+                                </td>
                                 <td>
                                     <button style="border:1px solid grey;"
                                         class="btn btn-outline-dark btn-block btn-rounded"
@@ -102,6 +109,11 @@
             </div>
             <div class="col-sm-3 text-center">
                 <button class="btn btn-danger btn-rounded btn-sm mt-4" (click)="cancelOrder()">Cancel Order</button>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <ngb-rating [max]="5" [(rate)]="currentRate" [readonly]="false"></ngb-rating>
             </div>
         </div>
     </div>

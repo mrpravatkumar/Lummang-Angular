@@ -18,6 +18,7 @@ export class OrdersComponent implements OnInit {
   modalOptions: NgbModalOptions;
 
   orderDetail: any = {}
+  currentRate = 0
 
   constructor(private CheckoutService: CheckoutService, private modalService: NgbModal) {
     this.modalOptions = {
@@ -36,6 +37,13 @@ export class OrdersComponent implements OnInit {
     } else {
       console.log('user not exit')
     }
+  }
+
+  rating(e){
+    setTimeout(() => {
+      console.log('currentRate: ', this.currentRate)
+      alert(`Thanks for the rating ${this.currentRate}`)
+    }, 2000);
   }
 
   private getDismissReason(reason: any): string {

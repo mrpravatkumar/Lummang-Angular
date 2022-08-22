@@ -109,8 +109,4 @@ export class HomeComponent implements OnInit {
 
   }
 
-  love() {
-    alert("love you too...")
-  }
-
 }
